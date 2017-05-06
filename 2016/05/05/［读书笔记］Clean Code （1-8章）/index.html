@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="MummyDing" />
+
+
+
+<meta name="description" content="时间： 2016/5/5 星期四
+  自写代码以来，逐渐意识代码代码规范的重要性，不过代码该怎么写更多的是自己的一些体会以及在阅读其他人的代码时的感受。后来开始接触项目开发之后，仅仅是代码块的规范还是不够，于是看了一些设计模式的书籍，了解并尝试使用MVC、MVP等架构。这次看Clean  Code这本书还是第一次系统地学习“如何写代码”，作者很详尽地将一些“写代码”规范进行系统整理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clean Code （1-8章）">
+<meta property="og:url" content="https://mummyding.github.io/2016/05/05/［读书笔记］Clean Code （1-8章）/index.html">
+<meta property="og:site_name" content="MummyDing's Blog">
+<meta property="og:description" content="时间： 2016/5/5 星期四
+  自写代码以来，逐渐意识代码代码规范的重要性，不过代码该怎么写更多的是自己的一些体会以及在阅读其他人的代码时的感受。后来开始接触项目开发之后，仅仅是代码块的规范还是不够，于是看了一些设计模式的书籍，了解并尝试使用MVC、MVP等架构。这次看Clean  Code这本书还是第一次系统地学习“如何写代码”，作者很详尽地将一些“写代码”规范进行系统整理。">
+<meta property="og:updated_time" content="2016-09-05T07:23:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Clean Code （1-8章）">
+<meta name="twitter:description" content="时间： 2016/5/5 星期四
+  自写代码以来，逐渐意识代码代码规范的重要性，不过代码该怎么写更多的是自己的一些体会以及在阅读其他人的代码时的感受。后来开始接触项目开发之后，仅仅是代码块的规范还是不够，于是看了一些设计模式的书籍，了解并尝试使用MVC、MVP等架构。这次看Clean  Code这本书还是第一次系统地学习“如何写代码”，作者很详尽地将一些“写代码”规范进行系统整理。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="MummyDing&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/avatar.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Clean Code （1-8章） | MummyDing&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56ff76c972fc0cf9"></script>
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?be11afd3596504a0dc0ea401f7154654";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">MummyDing</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">Android Developer</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>Menu</li>
+                        <li>Tags</li>
+                        
+                        <li>Friends</li>
+                        
+                        
+                        <li>About Me</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/tags/推荐/">推荐</a></li>
+                        
+                            <li><a href="/tags/随笔/">随笔</a></li>
+                        
+                            <li><a href="/tags/MummyDing">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:MummyDing@outlook.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/MummyDing" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="http://www.zhihu.com/people/MummyDing" title="知乎"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/MummyDing" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/推荐/"> 推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2015/">2015</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/2016/">2016</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-App/">Android App</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-Studio/">Android Studio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-UI/">Android UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Clean-Code/">Clean Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dialog/">Dialog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gradle/">Gradle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IM/">IM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ImageView/">ImageView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/">JSON</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ListView/">ListView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material-Design/">Material Design</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MummyDing/">MummyDing</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOM/">OOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ/">QQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ-UI/">QQ UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SwipeRefreshLayout/">SwipeRefreshLayout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI/">UI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/View/">View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WindowManage/">WindowManage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/九宫格手势/">九宫格手势</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/侧滑菜单/">侧滑菜单</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图片选择器/">图片选择器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/圆形头像/">圆形头像</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实习/">实习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实习生/">实习生</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源/">开源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/推荐/">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/桌面歌词/">桌面歌词</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/源码编译/">源码编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类库/">类库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网易/">网易</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自定义View/">自定义View</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蘑菇街/">蘑菇街</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课程表/">课程表</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://kevinwu.cn/">KevinWu.CN</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://ddragonever.com/">Ddragon&#39;s blog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://blog.kdwycz.com/">kdwycz&#39;s blog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mkfmiku.github.io/">KFBlog</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://blog.lattez.club/">Latte_z</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">95/Android开发/猪厂打杂</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">MummyDing</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">MummyDing</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Android Developer</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/tags/推荐/">推荐</a></li>
+                
+                    <li><a href="/tags/随笔/">随笔</a></li>
+                
+                    <li><a href="/tags/MummyDing">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:MummyDing@outlook.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/MummyDing" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="http://www.zhihu.com/people/MummyDing" title="知乎"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/MummyDing" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+</nav>
+      <div class="body-wrap"><article id="post-［读书笔记］Clean Code （1-8章）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/05/［读书笔记］Clean Code （1-8章）/" class="article-date">
+      <time datetime="2016-05-05T13:05:00.000Z" itemprop="datePublished">2016-05-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Clean Code （1-8章）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/【Others】读书笔记/">【Others】读书笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Clean-Code/">Clean Code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码规范/">代码规范</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>时间： 2016/5/5 星期四</p>
+<p>  自写代码以来，逐渐意识代码代码规范的重要性，不过代码该怎么写更多的是自己的一些体会以及在阅读其他人的代码时的感受。后来开始接触项目开发之后，仅仅是代码块的规范还是不够，于是看了一些设计模式的书籍，了解并尝试使用MVC、MVP等架构。这次看Clean  Code这本书还是第一次系统地学习“如何写代码”，作者很详尽地将一些“写代码”规范进行系统整理。<br><a id="more"></a><br>下面我整理的是各章（1-8）一些主要的点</p>
+<p>一、整洁代码</p>
+<ol>
+<li>概念 <pre><code>代码正确   
+简洁明了
+清晰易读  
+短小精确
+</code></pre>二、命名<br>1.准确：<pre><code>名字与意义匹配     
+易于区别      
+</code></pre>2.实用 <pre><code>使用读的出来的名称   
+使用可搜索的名称  
+</code></pre>3.明确    <pre><code>一个概念对应一个词  
+不用双关语   
+使用有意义的语境   
+</code></pre>三、函数<pre><code>1.短小
+2.职责单一
+3.一块代码中，函数的抽象层级需一致
+4.函数命名规范（参照二）
+5.参数尽可能少
+6.如果函数需要的参数要求数量有多种，应考虑将其封装成类
+7.实用异常类代替返回错误码，抽离try/catch代码块，使代码更加简洁
+</code></pre>四、注释<pre><code> 1.少用注释，尽可能通过规范的代码来表达
+ 2.不使用无意义的注释
+ 3.必要的注释
+    法律信息
+   提供信息的注释
+   对代码意图进行解释的注释
+   警示信息，防止踩坑
+   TODO注释：未来得及完成的部分
+4. 对于无用的代码应直接删除而不是注释
+</code></pre>五、格式<pre><code>1.为什么需要规范格式
+     易维护
+     易拓展
+2.垂直格式
+     行数少，短小精悍
+     概念隔离，不同的的概念/逻辑 代码实用空行隔离
+     相关靠近：对于关系紧密的代码，尽量写在一起
+3.水平格式
+     缩进、对齐
+</code></pre>六、对象与数据结构<pre><code>1.区别：
+     过程式代码便于在不改动既有数据结构的前提下添加新函数
+     面向对象代码便于在不改动既有函数的前提下添加新类
+ 亦即：
+         过程式代码难以添加新数据结构，因为必须修改所有函数
+         面向对象代码难以添加新函数，因为必须修改所有类
+</code></pre>七、错误处理<pre><code>1.使用异常而非返回码：
+     更加美观、整洁
+2.使用不可控异常
+     可控异常的代价是违反开放／闭合原则，因为你需要在使用的地方捕获异常
+3.在异常发生的地方添加环境说明：
+     这样当异常发生的时候就可以根据这些信息定位异常原因
+4.不返回null 也不传递null
+     这样在接收的时候不需要进行空值检查
+</code></pre>八、边界<pre><code>翻了下原书，边界是Boundaries   对于这个名字，开始不是大理解，就算现在看来也还是觉得不直观
+</code></pre>   标题略晦涩：作者的意思应该是让我们让自己的代码和第三方库代码不要耦合太紧密，需有清新的边界<pre><code>对于第三方类库给的学习建议是：探索性地学习测试，以此熟悉类库，写出良好的代码
+</code></pre></li>
+</ol>
+<p>第九章时讲单元测试，这个之前在实际开发中还没使用过，只是在一些书上看到过，明天尝试下再继续看</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>Title:</span><a href="/2016/05/05/［读书笔记］Clean Code （1-8章）/">Clean Code （1-8章）</a></p>
+        <p><span>Author:</span><a href="/" title="Back to Homepage">MummyDing</a></p>
+        <p><span>Created:</span>2016-05-05, 21:05:00</p>
+        <p><span>Updated:</span>2016-09-05, 15:23:44</p>
+        <p>
+            <span>Full URL:</span><a class="post-url" href="/2016/05/05/［读书笔记］Clean Code （1-8章）/" title="Clean Code （1-8章）">https://mummyding.github.io/2016/05/05/［读书笔记］Clean Code （1-8章）/</a>
+            <span class="copy-path" data-clipboard-text="From https://mummyding.github.io/2016/05/05/［读书笔记］Clean Code （1-8章）/　　By MummyDing" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>License:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"CC BY-NC-SA 4.0"</a> Keep Link &amp; Author if Distribute.
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/05/10/［读书笔记］Clean Code （8-完结）/">
+                    Clean Code （8-完结）
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/04/01/ Android实习生面试记录－蘑菇街、网易等/">
+                    Android实习生面试记录－蘑菇街、网易等
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="Hide"  title="Show or Hide Table of Contents">
+
+    <script>
+        yiliaConfig.toc = ["Hide", "Show", !!"false"];
+    </script>
+
+
+
+    <div class="share">
+
+
+<div class="addthis_sharing_toolbox"></div>
+
+</div>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/05/05/［读书笔记］Clean Code （1-8章）/" data-title="Clean Code （1-8章）" data-url="https://mummyding.github.io/2016/05/05/［读书笔记］Clean Code （1-8章）/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"MummyDing"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/05/10/［读书笔记］Clean Code （8-完结）/" title="Pre: Clean Code （8-完结）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/04/01/ Android实习生面试记录－蘑菇街、网易等/" title="Next: Android实习生面试记录－蘑菇街、网易等">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Android-5-1-1-源码编译/">Android 5.1.1 源码编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/网易实习第一阶段简单回顾/">网易实习第一阶段简单回顾</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/10/［读书笔记］Clean Code （8-完结）/">Clean Code （8-完结）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/05/［读书笔记］Clean Code （1-8章）/">Clean Code （1-8章）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/01/ Android实习生面试记录－蘑菇街、网易等/">Android实习生面试记录－蘑菇街、网易等</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/10/【Android】ColorPickerDialog 自定义颜色选择器的实现/">ColorPickerDialog 自定义颜色选择器的实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/05/ [爱编程]迟到的2015年终总结--初入工程开发/">迟到的2015年终总结--初入工程开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/【Android】开源　闲暇(Leisure) 阅读类应用的开发/">闲暇(Leisure) 阅读类应用的开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/05/【Android】多图选择器(支持图片预览 高效加载不怕OOM)/">多图选择器(支持图片预览 高效加载不怕OOM)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/【Android】Android Studio 使用第三方类库/">Android Studio 使用第三方类库</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/18/【Android】课程表布局实现(支持动态添加课程)/">课程表布局实现(支持动态添加课程)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/09/10/【Android】基于融云SDK的即时聊天工具/">基于融云SDK的即时聊天工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/16/【Android】高仿QQ 5.0+ UI/">高仿QQ 5.0+ UI</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/08/16/【Android】自定义圆形ImageView(圆形头像 可指定大小)/">自定义圆形ImageView(圆形头像 可指定大小)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/23/【Android】Android聊天机器人实现/">Android聊天机器人实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/20/【Android】使用 SwipeRefreshLayout 实现下拉刷新/">使用 SwipeRefreshLayout 实现下拉刷新</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/18/【Android】九宫格手势锁简单实现/">九宫格手势锁简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/07/16/【Android】桌面歌词悬浮效果简单实现/">桌面歌词悬浮效果简单实现</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 MummyDing
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="Site Visitors"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="Page Hits"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 2;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
