@@ -581,7 +581,8 @@
 
 </div>
 -->
-<footer id="footer">
+
+ <footer id="footer">
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
@@ -671,11 +672,11 @@
         var titleTime;
         document.addEventListener("visibilitychange", function() {
             if (document.hidden) {
-                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                document.title = "Yingjie Liu's Blog";
                 clearTimeout(titleTime);
             }
             else {
-                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                document.title = "Yingjie Liu's Blog";
                 titleTime = setTimeout(function() {
                     document.title = originTitle;
                 }, 2000);
