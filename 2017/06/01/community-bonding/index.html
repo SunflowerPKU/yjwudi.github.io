@@ -326,10 +326,11 @@
 
     <div class="article-entry" itemprop="articleBody">
         <strong>
-            Eigenfaces Algorithm Brief Description
+            Eigenfaces Algorithm
         </strong>
         <br>
-        <a href="https://en.wikipedia.org/wiki/Eigenface#cite_note-2" target="_blank" rel="external">Eigenfaces algorithm</a> is a well-known face recognition algorithm was developed by Sirovich and Kirby (1987) and used by Matthew Turk and Alex Pentland in face classification[1]. Eigenfaces is based on a mathmatical process called principal component analysis(PCA). It uses a set of training data which are human face images and labels. Eigenvectors is solved by PCA for the face matrix, and we will get a sub-space in which the distance of different people's face images is as large as possible. Each image in testing set is projected to the sub-space, and the training image with neareast distance will be its identity.
+        <a href="https://en.wikipedia.org/wiki/Eigenface" target="_blank" rel="external">Eigenfaces algorithm</a> is a well-known face recognition algorithm was developed by Sirovich and Kirby (1987) and used by Matthew Turk and Alex Pentland in face classification[1]. Eigenfaces is based on a mathmatical process called principal component analysis(PCA). It uses a set of training data which are human face images and labels. Eigenvectors is solved by PCA for the face matrix, and we will get a sub-space in which the distance of different people's face images is as large as possible. Each image in testing set is projected to the sub-space, and the training image with neareast distance will be its identity.<br>
+        In my work I have to add Eigenfaces module in digiKam for face recognition enhencement. In the first week, I read the code in digiKam for face recognition. I wrote a <a href="https://github.com/yjwudi/Eigenfaces-for-digiKam" target="_blank" rel="external">demo project</a> to test the efficiency of Eigenfaces in OpenCV. I use <a href="http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html">orl face database</a> which include 40 people's face images with 10 images of each person. I use 8 images of each person as traing images, and another 2 as test images, and the result is 76 true positive, 4 false positive which is acceptable.<br>
 
         <p>
         <strong>
