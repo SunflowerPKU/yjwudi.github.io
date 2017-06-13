@@ -284,7 +284,7 @@
 
 
     <h1 class="article-title" itemprop="name">
-      Community Bonding: Eigenfaces Algorithm Finished For DigiKam
+      May 30-June 30 (1): Fisherfaces Algorithm Finished For DigiKam
     </h1>
 
       </header>
@@ -296,42 +296,60 @@
 
     <div class="article-entry" itemprop="articleBody">
         <strong>
-            Eigenfaces Algorithm
+            Fisherfaces Algorithm (Background)
         </strong>
         <br>
-        <a href="https://en.wikipedia.org/wiki/Eigenface" target="_blank" rel="external">Eigenfaces algorithm</a> is a well-known face recognition algorithm was developed by Sirovich and Kirby (1987) and used by Matthew Turk and Alex Pentland in face classification[1]. Eigenfaces is based on a mathmatical process called principal component analysis(PCA). It uses a set of training data which are human face images and labels. Eigenvectors is solved by PCA for the face matrix, and we will get a sub-space in which the distance of different people's face images is as large as possible. Each image in testing set is projected to the sub-space, and the training image with neareast distance will be its identity.<br>
-        In my work I have to add Eigenfaces module in digiKam for face recognition enhencement. In the first week, I read the code in digiKam for face recognition. I wrote a <a href="https://github.com/yjwudi/Eigenfaces-for-digiKam" target="_blank" rel="external">demo project</a> to test the efficiency of Eigenfaces in OpenCV. I use <a href="http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html">orl face database</a> which include 40 people's face images with 10 images of each person. I use 8 images of each person as traing images, and another 2 as test images, and the result is 76 true positive, 4 false positive which is acceptable.<br>
+        Face recognition is a key problem in computer vision. One way to represent the input data is by finding a subspace which represents most of the data variance.
+        This can be obtained with the use of Principal Components Analysis (PCA). When applied to face images, PCA yields a set of eigenfaces.
+        These eigenfaces are the eigenvectors associated to the largest eigenvalues of the covariance matrix of the training data.
+        The eigenvectors thus found correspond to the least-squares (LS) solution. This is indeed a powerful way to represent the data because
+        it ensures the data variance is maintained while eliminating unnecessary existing correlations among the original features (dimensions)
+        in the sample vectors.[1] This is the core idea of <a href="https://en.wikipedia.org/wiki/Eigenface" target="_blank" rel="external">Eigenfaces algorithm</a>
+        <br>
+        When the goal is classification rather than representation, the LS solution may not yield the most desirable results. In such cases,
+        one wishes to find a subspace that maps the sample vectors of the same class in a single spot of the feature representation and those of
+        different classes as far apart from each other as possible. The techniques derived to achieve this goal are known as discriminant analysis (DA).[1]
+        <br>
+        The most known DA is Linear Discriminant Analysis (LDA), which can be derived from an idea suggested by R.A. Fisher in 1936.
+        When LDA is used to find the subspace representation of a set of face images, the resulting basis vectors defining that space are
+        known as Fisherfaces.
+        <br>
+        Unlike Eigenfaces, Fisherfaces using LDA for face recognition, which is better in classification rather than representation. As usual, I wrote test code for
+        Fisherfaces in OpenCV and pushed it into the <a href="https://github.com/yjwudi/Eigenfaces-for-digiKam" target="_blank" rel="external">demo project</a>. I use
+        <a href="http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html">orl face database</a> which include 40 people's face images with
+        10 images of each person. I use 8 images of each person as traing images, and another 2 as test images, and the result is 74 true positive,
+        6 false positive which is acceptable.<br>
         <strong>
             Modification Details
         </strong>
         <br>
-        My work including 4 parts:<br>
-        (1) UI modification. User can choose which algorithm to use when he wants to recognize faces, so I added algorithm option in advanced tab, which is shown in the screenshot below:<br>
-        <img src='1.png' width="50%" height="50%" />
+        My work including 3 parts as in Eigenfaces:<br>
+        (1) UI modification. I added algorithm option of Fisherfaces in advanced tab, which is shown in the screenshot below:(My mentor suggest me to use
+        a QComboBox, and I will change it later)<br>
+        <img src='1.jpg' width="50%" height="50%" />
         <br>
-        (2) Algorithm Selection. The program has to use the specified algorithm which is chosen by user which including:<br>
+        (2) Algorithm Selection. The program has to use Fisherfaces algorithm which is chosen by user which including:<br>
         <blockquote>
-            (a) Create a new Eigenfaces model.<br>
-            (b) Read training data from face database. <br>
+            (a) Create a new Fisherfaces model.<br>
+            (b) Read training data from face database (the same table as Eigenfaces). <br>
             (c) Add new labeled face as trainging data.<br>
-            (d) Traing by calculate eigenvectors.<br>
+            (d) Training by calculate eigenvectors and using LDA.<br>
             (e) Recognizing a new face.<br>
         </blockquote>
-        (3) Database modification. I created a new table "OpenCVEigenMat" in face database to store the mat of each labeled face. Program will insert a new mat when a new face is labeled, and it will select all mat from the table when training the model.<br>
-        (4) Eigenfaces algorithm. This is core part of my work. In this part, I created the Eigenfaces model, including training, recognizing, and reading/saving data from database. A threshold can be set by experience which is used to decide a face is unknown or not.<br>
+        (3) Eigenfaces algorithm. This is core part of my work. In this part, I created the Fisherfaces model, including training, recognizing,
+        and reading/saving data from database. A threshold can be set by experience which is used to decide a face is unknown or not.<br>
         <strong>
             Code details
         </strong>
         <br>
-        I have commited my code in a <a href="https://cgit.kde.org/digikam.git/log/?h=gsoc17-face-mngmnt" target="_blank" rel="external">new branch</a>. You can read and test my work there.<br>
+        I have commited my code in my <a href="https://cgit.kde.org/digikam.git/log/?h=gsoc17-face-mngmnt" target="_blank" rel="external">devel branch</a>.
+        You can read and test my work there.<br>
         <img src='2.png' width="80%" height="80%" />
         <br>
-        I used a small face data set to test, the next several screenshots are faces before recognition and after recognition.<br>
+        I used a small face data set to test like testing Eigenfaces, the next several screenshots are faces before recognition and after recognition.<br>
         Before recognition:<br>
         <img src='3.png' width="80%" height="80%" /><br>
-        After recognition(3 left unknown):<br>
-        <img src='4.png' width="80%" height="80%" /><br>
-        Images in tag "Jay" after recognition:<br>
+        Images in tag "jayjay" after recognition:<br>
         <img src='5.png' width="80%" height="80%" /><br>
         Images in tag "Robert" after recognition:<br>
         <img src='6.png' width="80%" height="80%" /><br>
@@ -341,7 +359,7 @@
             Reference
         </strong>
         <br>
-        [1] Turk, Matthew A and Pentland, Alex P. Face recognition using eigenfaces. Computer Vision and Pattern Recognition, 1991. Proceedings {CVPR'91.}, {IEEE} Computer Society Conference on 1991
+        [1] http://www.scholarpedia.org/article/Fisherfaces
         <br>
         <br>
         <br>
