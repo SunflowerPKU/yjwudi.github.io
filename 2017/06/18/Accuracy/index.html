@@ -298,6 +298,7 @@
         <strong>
             UI Modification For Face Recognition Algorithms.
         </strong>
+        <br>
         There has been 3 types of face recognition algorithms in digiKam: LBP, Eigenfaces, and Fisherfaces.
         Users can choose by ratio button:<br>
         <img src='1.jpg' width="50%" height="50%" /><br>
@@ -307,13 +308,13 @@
         <strong>
             Face Recognition Accuracy Improved to 99%
         </strong>
+        <br>
         I have been writing and testing a new face recognition algorithm using dlib. The algorithm is about to use
         Deep Learning for face recognition.There has been a big improve for face recognition using deep learning
         method from dlib. The Accuracy can reach 99.2% with only one training image for each class, and even 100%
         with more trining images. First, I will show the experiment result and then I will talk about the basic
         idea of face recognition method which has a connection with how to implement the algorithm in DigiKam.<br>
-        There are 40 classes of face, 10 images for each face in orl dataset
-        (http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html).I run four rounds of experiments.
+        There are 40 classes of face, 10 images for each face in <a href="http://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html" target="_blank" rel="external"> orl dataset</a>.I run four rounds of experiments.
         8 images of each face as training images, 2 images of each face as testing images. We got 320 in
         training set and 80 in testing set:<br>
         <img src='3.png' width="50%" height="50%" /><br>
@@ -328,13 +329,17 @@
         is used, which is called ResNet. 300 Million faces are used to train the network, and a pretrained model file is got at last.<br>
         Input a face image to the model file, and a 128 dimentional vector will got from the neural network. We calcute
         the distance between the vectors, and the recognize process is just like Eigenfaces and Fisherfaces. <br>
-        I pushed the test code into github(https://github.com/yjwudi/dlib_face_recognition_for_digikam), there is also a readme for how to run the experiments.<br>
+        I pushed the <a href="https://github.com/yjwudi/dlib_face_recognition_for_digikam" target="_blank" rel="external">test code</a> into github, there is also a readme for how to run the experiments.<br>
         <strong>
             Plan for Next Week
         </strong>
+        <br>
         There is no dlib dependencies in digiKam, so I have to rewrite the code. The data structures for image, the class for loading
         pre-trained model file, the function to get 128d vector and other functions in dlib. By this way, we will be able to use the
          deep-learning method but independent from dlib.<br>
+         <br>
+         <br>
+         <br>
 
 
 
