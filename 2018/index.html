@@ -264,72 +264,63 @@
 
 
 
-
-
-
 <div class="body-wrap">
+<article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
 
-  <article id="post-investigation" class="article article-type-post" itemscope itemprop="blogPost">
-
-        <div class="article-meta">
-          <a href="/2018/" class="article-date">
-          <time datetime="2018-06-07T07:32:00.000Z" itemprop="datePublished">2018-06-07</time>
-          </a>
-
-        </div>
-
-      <div class="article-inner">
-
-          <input type="hidden" class="isFancy" />
+    <div class="article-meta">
+        <a href="/2018/" class="article-date">
+        <time datetime="2018-06-07T07:32:00.000Z" itemprop="datePublished">2018-06-07</time>
+        </a>
 
 
-          <header class="article-header">
-        <h1 itemprop="name">
-          <a class="article-title" href="/2018/">Manually Sort Finished</a>
-        </h1>
-          </header>
+    </div>
+
+  <div class="article-inner">
+
+      <input type="hidden" class="isFancy" />
 
 
-        <div class="article-entry" itemprop="articleBody">
+      <header class="article-header">
 
 
-                  <p>Manually Sort Finished</p>
+    <h1 class="article-title" itemprop="name">
+      Manually Sort Finished
+    </h1>
 
-        </div>
+      </header>
 
-        <div class="article-info article-info-index">
-
-
-            <p class="article-more-link">
-              <a href="/2018/#more">more >></a>
-            </p>
-
-          <div class="clearfix"></div>
-        </div>
-
+      <div class="article-info article-info-post">
+        <div class="clearfix"></div>
       </div>
 
-    </article>
 
+    <div class="article-entry" itemprop="articleBody">
+        Recently, I have been working on manually sort in digikam. User can sort images manually in digikam icon view.<br>
+        We have an album like below:<br>
+        <img src='1.png' width="112" height="60" /><br>
+        User drag picture 0 and drop it on picture 3. There will be a menu which has a "Put back" action.<br>
+        <img src='2.png' width="50" height="36" /><br>
+        After click "Put back", picture 0 will be behind picture 3. The order of all the pictures will be recorded in database.<br>
+        <img src='3.png' width="106" height="48" /><br>
+        I added an action in View-Sort Items, which is called "By Manual". User can restore the manually sort result by click on "By Manual".<br> 
+        <img src='4.png' width="54" height="27" /><br>
+        The code can be found <a href="https://cgit.kde.org/digikam.git/?h=gsoc18-iconview-sort" target="_blank" rel="external">here</a>.
 
-
-
-    
-
-
-
+         <br>
+         <br>
+         <br>
 
 </div>
 
 
 
 
-<footer id="footer">
+ <footer id="footer">
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i>
-                2018 Yingjie Liu
+                2017 Yingjie Liu
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
